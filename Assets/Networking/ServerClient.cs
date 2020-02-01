@@ -3,32 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 using Assets.Networking.Identity;
 using Assets.Networking.Messaging;
 using Assets.Networking.Messaging.ConnectionHandlers;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace Assets.Networking
 {
     public class ServerClient : MonoBehaviour
     {
+        private TcpClient _tcpClient;
         private EstablishedConnection _establishedConnection;
+        private IPEndPoint _iPEndPoint;
         public void Awake()
         {
             var ipAddress = ServerClientInfo.IpAddress;
             var portNum = ServerClientInfo.PortNum;
-            var endPoint = new IPEndPoint(long.Parse(ipAddress), portNum);
-            var tcpClient = new TcpClient(endPoint);
-            _establishedConnection = new EstablishedConnection(tcpClient.Client);
+            var ipAddressObj = IPAddress.Parse(ipAddress);
+            _iPEndPoint = new IPEndPoint(ipAddressObj, portNum);
+            _tcpClient = new TcpClient();
+        }
+
+        public bool TryConnect()
+        {
+            if(!_tcpClient.Connected)
+            {
+                try
+                {
+                    _tcpClient.Connect(_iPEndPoint);
+                }
+                catch(Exception)
+                {
+                    return false;
+                }
+                return true;
+            }
+            else if(_establishedConnection == null)
+            {
+                _establishedConnection = new EstablishedConnection(_tcpClient.Client);
+            }
+            return true;
         }
 
 
         void Update()
         {
-            if (Time.frameCount % 3 == 0)
+            if (Time.frameCount % 3 == 0 && TryConnect())
             {
                 var playerOwned = GameObject.FindObjectsOfType<BaseNetworkBehavior>().Where(t => t.PlayerOwned);
                 _establishedConnection.SendUpdateBroadcast(playerOwned);

@@ -8,8 +8,8 @@ namespace Assets.Networking
     {
         static ServerClientInfo()
         {
-            if (!File.Exists("./gameConfig.json")) return;
-            var configFile = File.ReadAllText("./gameConfig.json");
+            if (!File.Exists("F:/DamageControl/New Unity Project/Assets/gameConfig.json")) return;
+            var configFile = File.ReadAllText("F:/DamageControl/New Unity Project/Assets/gameConfig.json");
             var jObject = JObject.Parse(configFile);
             var properties = typeof(ServerClientInfo).GetProperties(BindingFlags.Static | BindingFlags.Public);
             foreach (var property in properties)

@@ -21,7 +21,7 @@ namespace Assets.Networking.Messaging.ConnectionHandlers
 
         private void ListenOverSocket()
         {
-            while (true)
+            while (true && _socket.Connected)
             {
                 var messageSize = GetMessageSize();
                 var messageArray = new byte[messageSize];
