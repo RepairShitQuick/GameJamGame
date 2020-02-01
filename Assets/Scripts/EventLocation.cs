@@ -1,13 +1,16 @@
 ﻿using Assets.Containers;
 using UnityEngine;
 
-/// <summary>
-/// This just implies that this class can be targeted to get shot
-/// </summary>
-public class EventLocation : MonoBehaviour
+namespace Assets.Scripts
 {
-    void Awake()
+    /// <summary>
+    /// This just implies that this class can be targeted to get shot
+    /// </summary>
+    public class EventLocation : MonoBehaviour
     {
-        EventLocationContainer.AllEventLocations.Add(this);
+        void Awake()
+        {
+            EventLocationContainer.AllEventLocations.Add(this);
+        }
     }
 }
