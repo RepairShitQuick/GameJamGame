@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers
@@ -22,6 +23,13 @@ namespace Assets.Scripts.Controllers
             {
                 UnlockCursor();
             }
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            var rigidBody = GetComponent<Rigidbody>();
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
         }
 
         private void Move(float forwardTranslation, float straffeTranslation)
