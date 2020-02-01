@@ -37,24 +37,9 @@ namespace Assets.Networking.Messaging.ConnectionHandlers
             return BitConverter.ToInt32(bytes, 0);
         }
 
-        public void SendMessageSync(object obj)
+        public void SendMessageSync(byte[] arr)
         {
-            var jsonObj = JsonConvert.SerializeObject(obj);
-            var jsonBytes = Encoding.UTF8.GetBytes(jsonObj);
-            var message = new byte[IntSize + jsonBytes.Length];
-            var lengthAsBytes = BitConverter.GetBytes(jsonBytes.Length);
-            var i = 0;
-            for (; i < lengthAsBytes.Length; i++)
-            {
-                message[i] = lengthAsBytes[i];
-            }
-
-            for (var k = 0; k < jsonBytes.Length; k++, i++)
-            {
-                message[i] = jsonBytes[k];
-            }
-
-            _socket.Send(message);
+            _socket.Send(arr);
         }
     }
 }

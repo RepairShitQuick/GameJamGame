@@ -24,6 +24,19 @@ namespace Assets.Networking
             _tcpClient = new TcpClient();
         }
 
+        public IEnumerable<string> GetMessages()
+        {
+            while (_establishedConnection.TcpConnectionHandler.Messages.Any())
+            {
+                yield return _establishedConnection.TcpConnectionHandler.Messages.Pop();
+            }
+
+            while (_establishedConnection.UdpConnectHandler.Messages.Any())
+            {
+                yield return _establishedConnection.UdpConnectHandler.Messages.Pop();
+            }
+        }
+
         public bool TryConnect()
         {
             if(!_tcpClient.Connected)

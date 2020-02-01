@@ -25,6 +25,12 @@ namespace Assets.Networking.Messaging.ConnectionHandlers
             }
         }
 
+        public void SendDeleteMessage(DeleteRequest req)
+        {
+            var message = MessageBuilder.GetMessage(req, req.GuidToDelete, MessageStrategy.Header);
+            TcpConnectionHandler.SendMessageSync(message);
+        }
+
         public void CallFunction(RemoteMethodCall call)
         {
             var message = MessageBuilder.GetMessage(call, call.AssociatedNetworkGuid);
