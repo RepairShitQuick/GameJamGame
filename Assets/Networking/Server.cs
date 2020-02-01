@@ -16,7 +16,6 @@ namespace Assets.Networking
         public string PlayerPrefabPath = "Assets/Prefbs/PlayerPrefab.prefab";
         private Dictionary<MonoBehaviour, SnapShot> _snapShotsSinceLastBroadcast;
 
-
         public void Awake()
         {
             _snapShotsSinceLastBroadcast = new Dictionary<MonoBehaviour, SnapShot>();
