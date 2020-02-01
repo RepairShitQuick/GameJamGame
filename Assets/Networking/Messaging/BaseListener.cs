@@ -27,9 +27,24 @@ namespace Assets.Networking.Messaging
                     newGameObj.AddComponent(TypeNamer.GetType(wrapper.TypeName));
                 }
 
-                var comp = IdentityStore.NetworkedGameObjectsByGuid[wrapper.NetworkGuid]
-                                        .GetComponent(TypeNamer.GetType(wrapper.TypeName));
-                JsonUpdateWriter.UpdateComponent(comp, wrapper.Object);
+                var type = TypeNamer.GetType(wrapper.TypeName);
+
+                if (type == typeof(DeleteRequest))
+                {
+                    var deleteRequest = wrapper.ConvertObjToType<DeleteRequest>();
+                    var gameObjectToDeleteComponentFrom = IdentityStore.NetworkedGameObjectsByGuid[deleteRequest.GuidToDelete];
+                    Destroy(gameObjectToDeleteComponentFrom.GetComponent(deleteRequest.TypeOfComponent));
+                    if (gameObjectToDeleteComponentFrom.GetComponents(typeof(Component)).Length == 0)
+                    {
+                        Destroy(gameObjectToDeleteComponentFrom);
+                    }
+                }
+                else
+                {
+                    var comp = IdentityStore.NetworkedGameObjectsByGuid[wrapper.NetworkGuid]
+                                            .GetComponent(type);
+                    JsonUpdateWriter.UpdateComponent(comp, wrapper.Object);
+                }
             }
         }
 
