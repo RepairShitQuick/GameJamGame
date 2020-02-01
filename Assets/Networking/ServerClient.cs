@@ -15,7 +15,8 @@ namespace Assets.Networking
         private TcpClient _tcpClient;
         private EstablishedConnection _establishedConnection;
         private IPEndPoint _iPEndPoint;
-        public void Awake()
+
+        public ServerClient()
         {
             var ipAddress = ServerClientInfo.IpAddress;
             var portNum = ServerClientInfo.PortNum;
