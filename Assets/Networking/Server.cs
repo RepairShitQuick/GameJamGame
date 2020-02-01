@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using Assets.Networking.Identity;
 using Assets.Networking.Messaging;
 using Assets.Networking.Messaging.ConnectionHandlers;
+using Assets.Networking.Messaging.Requests;
 using UnityEngine;
 
 namespace Assets.Networking
@@ -12,7 +13,7 @@ namespace Assets.Networking
     {
         private ConnectionInitializationListener _listener;
         private ICollection<EstablishedConnection> _connections;
-        public GameObject PlayerSpawnPrefab;
+        public string PlayerPrefabPath = "Assets/Prefbs/PlayerPrefab.prefab";
         private Dictionary<MonoBehaviour, SnapShot> _snapShotsSinceLastBroadcast;
 
 
@@ -44,9 +45,8 @@ namespace Assets.Networking
         {
             var connection = new EstablishedConnection(socket);
             _connections.Add(connection);
-            var prefabMessage = Instantiate(PlayerSpawnPrefab, transform);
-            connection.CreateObjectOverNetwork(prefabMessage);
-            Destroy(prefabMessage);
+            var createResource = new CreateRequest {ResourcePath = PlayerPrefabPath};
+            connection.CreateObjectOverNetwork(createResource);
         }
 
         void Update()

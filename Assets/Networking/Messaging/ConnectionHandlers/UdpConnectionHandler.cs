@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -13,7 +14,7 @@ namespace Assets.Networking.Messaging.ConnectionHandlers
         public UdpConnectionHandler(Socket socket)
         {
             _udpClient = new UdpClient(socket.RemoteEndPoint.AddressFamily);
-            _udpClient.Client.Bind(socket.LocalEndPoint);
+            _udpClient.Connect((IPEndPoint)socket.RemoteEndPoint);
             Messages = new Stack<string>();
             new Thread(ListenUdp).Start();
         }

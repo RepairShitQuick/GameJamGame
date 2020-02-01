@@ -8,18 +8,18 @@ namespace Assets.Networking.Messaging
     {
         public Guid NetworkGuid { get;  }
         public string TypeName { get; }
-        public object Object { get; }
+        public object MessageObject { get; set; }
 
         public MessageWrapper(object obj, Guid guid)
         {
             NetworkGuid = guid;
             TypeName = TypeNamer.GetTypeName(obj.GetType());
-            Object = obj;
+            MessageObject = obj;
         }
 
         public T ConvertObjToType<T>()
         {
-            var jObject = (JObject) Object;
+            var jObject = (JObject) MessageObject;
             return jObject.ToObject<T>();
         }
     }

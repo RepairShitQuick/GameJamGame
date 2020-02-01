@@ -12,9 +12,9 @@ namespace Assets.Networking
 {
     public class ServerClient : MonoBehaviour
     {
-        private TcpClient _tcpClient;
+        private readonly TcpClient _tcpClient;
         private EstablishedConnection _establishedConnection;
-        private IPEndPoint _iPEndPoint;
+        private readonly IPEndPoint _iPEndPoint;
 
         public ServerClient()
         {
@@ -23,10 +23,12 @@ namespace Assets.Networking
             var ipAddressObj = IPAddress.Parse(ipAddress);
             _iPEndPoint = new IPEndPoint(ipAddressObj, portNum);
             _tcpClient = new TcpClient();
+            TryConnect();
         }
 
         public IEnumerable<string> GetMessages()
         {
+            if (!TryConnect()) yield break;
             while (_establishedConnection.TcpConnectionHandler.Messages.Any())
             {
                 yield return _establishedConnection.TcpConnectionHandler.Messages.Pop();
@@ -55,8 +57,10 @@ namespace Assets.Networking
             else if(_establishedConnection == null)
             {
                 _establishedConnection = new EstablishedConnection(_tcpClient.Client);
+                return true;
             }
-            return true;
+
+            return _establishedConnection != null;
         }
 
 

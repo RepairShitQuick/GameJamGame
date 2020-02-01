@@ -8,9 +8,5 @@ namespace Assets.Scripts
     /// </summary>
     public class EventLocation : MonoBehaviour
     {
-        void Awake()
-        {
-            EventLocationContainer.AllEventLocations.Add(this);
-        }
     }
 }

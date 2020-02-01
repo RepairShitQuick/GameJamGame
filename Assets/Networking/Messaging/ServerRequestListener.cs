@@ -10,7 +10,7 @@ namespace Assets.Networking.Messaging
     {
         private Server _server;
 
-        public void Awake()
+        public void Start()
         {
             _server = FindObjectOfType<Server>();
         }

@@ -14,7 +14,8 @@ namespace Assets.Networking.Identity
         {
             IdentityStore.NetworkedGameObjectsByGuid.Add(this.AssociatedNetworkIdentity, this.gameObject);
         }
-        public Guid AssociatedNetworkIdentity { get; set; }
+
+        public Guid AssociatedNetworkIdentity => GetComponent<NetworkIdentity>().Guid;
         public bool PlayerOwned { get; set; }
     }
 }

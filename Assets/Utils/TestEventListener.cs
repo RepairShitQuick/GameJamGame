@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.Utils
 {
-    public class TestEventListener
+    public class TestEventListener : MonoBehaviour
     {
         public GameObject HullBreachDamageEventPrefab;
         private HullBreachDamageEvent hullBreachDamageEvent;
