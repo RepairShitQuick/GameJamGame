@@ -12,5 +12,13 @@ namespace Assets.Networking
     /// </summary>
     public class SceneSpawnPoint : MonoBehaviour
     {
+        void Awake()
+        {
+            if (ServerClientInfo.IsServer)
+            {
+                var gameObject = new GameObject();
+                gameObject.AddComponent<Server>();
+            }
+        }
     }
 }
