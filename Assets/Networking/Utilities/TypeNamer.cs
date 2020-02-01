@@ -11,10 +11,15 @@ namespace Assets.Networking.Utilities
 
         static TypeNamer()
         {
+            typeNamesByPath = new Dictionary<string, Type>();
             var allTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(t => t.GetTypes());
             foreach (var type in allTypes)
             {
-                typeNamesByPath.Add(GetTypeName(type), type);
+                var name = GetTypeName(type);
+                if (!typeNamesByPath.ContainsKey(name))
+                {
+                    typeNamesByPath.Add(GetTypeName(type), type);
+                }
             }
         }
         public static string GetTypeName(Type t)

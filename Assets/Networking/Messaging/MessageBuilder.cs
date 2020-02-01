@@ -1,15 +1,17 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace Assets.Networking.Messaging
 {
     public static class MessageBuilder
     {
         private static JsonSerializerSettings _settings;
+        private static ISet<Type> TypesToCallJsonUtilityOn;
 
         static MessageBuilder()
         {
@@ -19,6 +21,12 @@ namespace Assets.Networking.Messaging
                 {
                     new GameObjectConverter()
                 }
+            };
+
+            TypesToCallJsonUtilityOn = new HashSet<Type>
+            {
+                typeof(Vector3),
+                typeof(Quaternion)
             };
         }
 
@@ -86,8 +94,24 @@ namespace Assets.Networking.Messaging
 
         private static string GetMessageWrapperAsJson(object obj, Guid guid)
         {
+            if (obj == null)
+            {
+                UnityEngine.Debug.LogWarning("Object being passed in is null");
+            }
+
+            UnityEngine.Debug.Log($"Trying to convert {obj.GetType()} into message");
             var messageWrapper = new MessageWrapper(obj, guid);
-            return JsonConvert.SerializeObject(messageWrapper, _settings);
+
+            try
+            {
+                return JsonConvert.SerializeObject(messageWrapper, _settings);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
     }
 }

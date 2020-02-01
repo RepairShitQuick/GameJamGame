@@ -1,4 +1,4 @@
 {
-  "IsServer": false,
+  "IsServer": true,
   "IpAddress": "127.0.0.1"
 }

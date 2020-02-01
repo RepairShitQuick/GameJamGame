@@ -9,7 +9,7 @@ namespace Assets.Containers
     /// </summary>
     public static class EventLocationContainer
     {
-        public static readonly IList<EventLocation> AllEventLocations;
+        public static readonly IReadOnlyList<EventLocation> AllEventLocations;
 
         static EventLocationContainer()
         {

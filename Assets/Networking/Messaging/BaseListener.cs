@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Networking.Identity;
+using Assets.Networking.Messaging.Requests;
 using Assets.Networking.Utilities;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -20,6 +21,12 @@ namespace Assets.Networking.Messaging
             foreach (var update in updates)
             {
                 var wrapper = DeserializeWrapper(update);
+                if (wrapper.NetworkGuid == Guid.Empty)
+                {
+                    Debug.LogWarning("Network guid came over as empty");
+                    if(wrapper.MessageObject == null) continue;
+                    wrapper = new MessageWrapper(wrapper.MessageObject, Guid.NewGuid());
+                }
                 if (!IdentityStore.NetworkedGameObjectsByGuid.ContainsKey(wrapper.NetworkGuid))
                 {
                     var newGameObj = new GameObject();
@@ -29,6 +36,12 @@ namespace Assets.Networking.Messaging
 
                 var type = TypeNamer.GetType(wrapper.TypeName);
 
+                if (type == typeof(CreateRequest))
+                {
+                    var newGameObj = wrapper.ConvertObjToType<CreateRequest>().CreateObject();
+                    var identitiy = newGameObj.GetComponent<NetworkIdentity>();
+                    IdentityStore.NetworkedGameObjectsByGuid.Add(identitiy.Guid, newGameObj);
+                }
                 if (type == typeof(DeleteRequest))
                 {
                     var deleteRequest = wrapper.ConvertObjToType<DeleteRequest>();
@@ -43,7 +56,7 @@ namespace Assets.Networking.Messaging
                 {
                     var comp = IdentityStore.NetworkedGameObjectsByGuid[wrapper.NetworkGuid]
                                             .GetComponent(type);
-                    JsonUpdateWriter.UpdateComponent(comp, wrapper.Object);
+                    JsonUpdateWriter.UpdateComponent(comp, wrapper.MessageObject);
                 }
             }
         }

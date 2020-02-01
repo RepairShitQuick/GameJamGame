@@ -15,6 +15,11 @@ namespace Assets.Networking.Messaging
             _serverClient = FindObjectOfType<ServerClient>();
         }
 
+        public void Start()
+        {
+            _serverClient = FindObjectOfType<ServerClient>();
+        }
+
         public override IEnumerable<string> GetMessages() => _serverClient.GetMessages();
     }
 }

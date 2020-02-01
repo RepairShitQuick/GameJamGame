@@ -1,8 +1,10 @@
-﻿namespace Assets.Scripts.Behaviors
+﻿using Assets.Networking.Identity;
+
+namespace Assets.Scripts.Behaviors
 {
-    public class HullBreachInteractable : NetworkInteractable
+    public class HullBreachInteractable : BaseNetworkBehavior
     {
-        protected override void LocalInteract()
+        public void Interact()
         {
             Destroy(this.gameObject);
         }
