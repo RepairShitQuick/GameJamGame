@@ -19,6 +19,11 @@ namespace Assets.Networking
                 var gameObject = new GameObject();
                 gameObject.AddComponent<Server>();
             }
+            else
+            {
+                var gameObject = new GameObject();
+                gameObject.AddComponent<ServerClient>();
+            }
         }
     }
 }

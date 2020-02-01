@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-namespace Assets.Scripts.Behaviors
+﻿namespace Assets.Scripts.Behaviors
 {
-    public class HullBreachInteractable : MonoBehaviour
+    public class HullBreachInteractable : NetworkInteractable
     {
-        public void Interact()
+        protected override void LocalInteract()
         {
             Destroy(this.gameObject);
         }
