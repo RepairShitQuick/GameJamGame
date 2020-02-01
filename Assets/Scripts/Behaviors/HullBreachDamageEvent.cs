@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Containers;
 using Assets.Utils;
@@ -12,20 +13,30 @@ namespace Assets.Scripts.Behaviors
     public class HullBreachDamageEvent : MonoBehaviour, IDamageEvent
     {
         public GameObject ImpactPreFab;
+        public GameObject LineDrawerPreFab;
+
         public void RunEvent()
         {
             var eventLocations = EventLocationContainer.AllEventLocations;
             var selectedLocal = eventLocations.First().transform;
             var impacts = CalculateBothRayCastHits(selectedLocal);
+            var impactPrefabs = new List<GameObject>();
             foreach (var impact in impacts)
             {
-                InstantiateAtNormal(impact);
+                impactPrefabs.Add(InstantiateAtNormal(impact));
+            }
+
+            if (impactPrefabs.Count > 2)
+            {
+                var lineDrawer = GameObject.Instantiate(LineDrawerPreFab, this.transform);
+                var lineDrawerComponent = lineDrawer.GetComponent<HullBreachEffect>();
+                lineDrawerComponent.AddHits(impactPrefabs);
             }
         }
 
-        private void InstantiateAtNormal(RaycastHit hit)
+        private GameObject InstantiateAtNormal(RaycastHit hit)
         {
-            GameObject.Instantiate(ImpactPreFab, hit.normal, hit.transform.rotation);
+            return GameObject.Instantiate(ImpactPreFab, hit.point, Quaternion.Euler(hit.normal));
         }
 
         private RaycastHit[] CalculateBothRayCastHits(Transform transform)
