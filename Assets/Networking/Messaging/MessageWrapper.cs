@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Networking.Utilities;
+using Newtonsoft.Json.Linq;
 
 namespace Assets.Networking.Messaging
 {
@@ -14,6 +15,12 @@ namespace Assets.Networking.Messaging
             NetworkGuid = guid;
             TypeName = TypeNamer.GetTypeName(obj.GetType());
             Object = obj;
+        }
+
+        public T ConvertObjToType<T>()
+        {
+            var jObject = (JObject) Object;
+            return jObject.ToObject<T>();
         }
     }
 }

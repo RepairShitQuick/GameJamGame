@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,19 @@ namespace Assets.Networking.Messaging
 {
     public static class MessageBuilder
     {
+        private static JsonSerializerSettings _settings;
+
+        static MessageBuilder()
+        {
+            _settings = new JsonSerializerSettings
+            {
+                Converters = new List<JsonConverter>
+                {
+                    new GameObjectConverter()
+                }
+            };
+        }
+
         public static byte[] GetMessage(object obj, Guid guid, MessageStrategy messageStrategy = MessageStrategy.NoHeader)
         {
             if (obj == null)
@@ -73,8 +87,7 @@ namespace Assets.Networking.Messaging
         private static string GetMessageWrapperAsJson(object obj, Guid guid)
         {
             var messageWrapper = new MessageWrapper(obj, guid);
-            return JsonConvert.SerializeObject(messageWrapper);
+            return JsonConvert.SerializeObject(messageWrapper, _settings);
         }
-
     }
 }

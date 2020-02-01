@@ -1,9 +1,10 @@
-﻿using Assets.Scripts.Behaviors;
+﻿using Assets.Networking;
+using Assets.Scripts.Behaviors;
 using UnityEngine;
 
 namespace Assets.Utils
 {
-    public class TestEventListener : MonoBehaviour
+    public class TestEventListener
     {
         public GameObject HullBreachDamageEventPrefab;
         private HullBreachDamageEvent hullBreachDamageEvent;
@@ -15,7 +16,7 @@ namespace Assets.Utils
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.O))
+            if (ServerClientInfo.IsServer && Input.GetKeyDown(KeyCode.O))
             {
                 hullBreachDamageEvent.RunEvent();
             }
