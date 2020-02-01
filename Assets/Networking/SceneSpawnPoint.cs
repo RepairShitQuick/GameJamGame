@@ -22,13 +22,12 @@ namespace Assets.Networking
                 var gameObject = new GameObject();
                 gameObject.AddComponent<Server>();
                 gameObject.AddComponent<ServerRequestListener>();
-                gameObject.AddComponent<ClientRequestListener>();
-                gameObject.AddComponent<ServerClient>();
             }
             else
             {
                 var gameObject = new GameObject();
                 gameObject.AddComponent<ServerClient>();
+                gameObject.AddComponent<ClientRequestListener>();
             }
 
 
