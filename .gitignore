@@ -412,3 +412,6 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 .idea
+
+# VSCode Settings
+.vscode/settings.json
