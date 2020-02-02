@@ -1,5 +1,4 @@
-﻿using Assets.Networking;
-using Assets.Scripts.Behaviors;
+﻿using Assets.Scripts.Behaviors;
 using UnityEngine;
 
 namespace Assets.Utils
@@ -16,7 +15,7 @@ namespace Assets.Utils
 
         void Update()
         {
-            if (ServerClientInfo.IsServer && Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 hullBreachDamageEvent.RunEvent();
             }

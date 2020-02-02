@@ -1,8 +1,8 @@
-﻿using Assets.Networking.Identity;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.Behaviors
 {
-    public class HullBreachInteractable : BaseNetworkBehavior
+    public class HullBreachInteractable : MonoBehaviour
     {
         public void Interact()
         {
